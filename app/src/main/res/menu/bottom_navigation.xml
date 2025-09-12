@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/itemChrono"
+        android:icon="@android:drawable/ic_lock_idle_alarm"
+        android:title="@string/chronometer"/>
+    <item
+        android:id="@+id/itemTimer"
+        android:icon="@drawable/timer"
+        android:title="@string/timer"/>
+</menu>
