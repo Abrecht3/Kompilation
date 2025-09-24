@@ -1,8 +1,27 @@
 <resources>
     <string name="app_name">Kompilation</string>
-    <!-- TODO: Remove or change this placeholder text -->
+
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
     <string name="clock">00:00:00</string>
+
+    <!-- Bottom navigation titles-->
     <string name="chronometer">Cronometro</string>
     <string name="timer">Temporizador</string>
+    <string name="battery_info">Estado de Bateria</string>
+
+    <string name="battery_title">Informacion de la bateria</string>
+    <string name="percent">50%</string>
+    <string name="battery_status">Estado de la bateria</string>
+    <string name="voltage_title">Voltage</string>
+    <string name="volt_value">5</string>
+    <string name="plug_in">Conectado</string>
+    <string name="plug_status">Si</string>
+    <string name="thermostat">Temperatura</string>
+    <string name="temperature_value">0°C</string>
+    <string name="technology">Tecnologia</string>
+    <string name="tech_value">USB</string>
+    <string name="plug_on">On</string>
+    <string name="plug_off">Off</string>
 </resources>

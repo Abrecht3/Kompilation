@@ -9,4 +9,8 @@
         android:id="@+id/itemTimer"
         android:icon="@drawable/timer"
         android:title="@string/timer"/>
+    <item
+        android:id="@+id/itemBattery"
+        android:icon="@drawable/battery_status"
+        android:title="@string/battery_info"/>
 </menu>

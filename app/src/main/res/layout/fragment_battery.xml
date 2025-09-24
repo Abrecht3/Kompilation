@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:padding="30dp"
+    tools:context=".battery.BatteryFragment">
+
+
+    <TextView
+        android:id="@+id/batteryTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="@string/battery_title"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.mikhaellopez.circularfillableloaders.CircularFillableLoaders
+        android:id="@+id/batteryProgress"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="60dp"
+        app:cfl_border="true"
+        app:cfl_border_width="5dp"
+        app:cfl_progress="50"
+        app:cfl_wave_amplitude="0.03"
+        app:cfl_wave_color="@color/progressBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/batteryTitle" />
+
+    <TextView
+        android:id="@+id/tvBatteryPercent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/percent"
+        android:textColor="@color/white"
+        android:textSize="40sp"
+        app:layout_constraintBottom_toBottomOf="@+id/batteryProgress"
+        app:layout_constraintEnd_toEndOf="@id/batteryProgress"
+        app:layout_constraintStart_toStartOf="@id/batteryProgress"
+        app:layout_constraintTop_toTopOf="@id/batteryProgress" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvInformation"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginVertical="40dp"
+        app:cardBackgroundColor="@color/card_background"
+        app:cardCornerRadius="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/batteryProgress">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/battery_status"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="20dp">
+
+                <ImageView
+                    android:id="@+id/ivVoltage"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginEnd="10dp"
+                    android:src="@drawable/bolt"
+                    app:tint="@color/white" />
+
+                <TextView
+                    android:id="@+id/tvVolt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/ivVoltage"
+                    android:text="@string/voltage_title"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:id="@+id/tvVoltValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvVolt"
+                    android:layout_toEndOf="@+id/ivVoltage"
+                    android:text="@string/volt_value"
+                    android:textColor="@color/white" />
+
+                <ImageView
+                    android:id="@+id/ivConected"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_below="@+id/ivVoltage"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="1dp"
+                    android:layout_marginTop="70dp"
+
+                    android:layout_marginEnd="10dp"
+                    android:src="@drawable/plug_connect"
+                    app:tint="@color/white" />
+
+                <TextView
+                    android:id="@+id/tvConnected"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/ivConected"
+                    android:layout_toEndOf="@+id/ivConected"
+                    android:text="@string/plug_in"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:id="@+id/tvConnectStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvConnected"
+                    android:layout_toEndOf="@+id/ivConected"
+                    android:text="@string/plug_status"
+                    android:textColor="@color/white" />
+
+                <ImageView
+                    android:id="@+id/ivTemp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="30dp"
+                    android:layout_toEndOf="@+id/tvVolt"
+                    android:src="@drawable/thermostat"
+                    app:tint="@color/white" />
+
+                <TextView
+                    android:id="@+id/tvTempTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_toEndOf="@+id/ivTemp"
+                    android:text="@string/thermostat"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:id="@+id/tvTemperatureValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvTempTitle"
+                    android:layout_toEndOf="@+id/ivTemp"
+                    android:text="@string/temperature_value"
+                    android:textColor="@color/white" />
+
+                <ImageView
+                    android:id="@+id/ivTechnology"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_below="@id/ivTemp"
+                    android:layout_marginStart="9dp"
+                    android:layout_marginTop="73dp"
+                    android:layout_toEndOf="@id/tvConnected"
+                    android:src="@drawable/mobile_gear"
+                    app:tint="@color/white" />
+                <TextView
+                    android:id="@+id/tvTechTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_toEndOf="@+id/ivTechnology"
+                    android:layout_alignTop="@+id/ivTechnology"
+                    android:text="@string/technology"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:id="@+id/tvTechValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvTechTitle"
+                    android:layout_toEndOf="@+id/ivTemp"
+                    android:text="@string/tech_value"
+                    android:textColor="@color/white" />
+
+            </RelativeLayout>
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

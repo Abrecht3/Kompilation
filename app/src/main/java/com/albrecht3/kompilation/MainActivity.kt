@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.albrecht3.kompilation.battery.BatteryFragment
 import com.albrecht3.kompilation.clock.ChronometerFragment
 import com.albrecht3.kompilation.clock.TimerFragment
 import com.albrecht3.kompilation.databinding.ActivityMainBinding
@@ -26,6 +27,7 @@ class MainActivity : AppCompatActivity() {
             when(item.itemId){
                 R.id.itemChrono->replaceFragment(ChronometerFragment())
                 R.id.itemTimer->replaceFragment(TimerFragment())
+                R.id.itemBattery->replaceFragment(BatteryFragment())
             }
             true
         }

@@ -4,5 +4,7 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="background">#4B4376</color>
+    <color name="card_background">#010F5B</color>
     <color name="menu">#432E54</color>
+    <color name="progressBar">#0257A0</color>
 </resources>
