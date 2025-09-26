@@ -3,11 +3,11 @@
 
     <item
         android:id="@+id/itemChrono"
-        android:icon="@android:drawable/ic_lock_idle_alarm"
+        android:icon="@drawable/timer"
         android:title="@string/chronometer"/>
     <item
         android:id="@+id/itemTimer"
-        android:icon="@drawable/timer"
+        android:icon="@drawable/nest_clock"
         android:title="@string/timer"/>
     <item
         android:id="@+id/itemBattery"

@@ -1,33 +1,31 @@
 package com.albrecht3.kompilation.clock
 
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.albrecht3.kompilation.databinding.FragmentChronometerBinding
+import android.content.BroadcastReceiver
+import android.content.Context
+import androidx.core.content.ContextCompat
 import com.albrecht3.kompilation.R
+import kotlin.math.roundToInt
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [ChronometerFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class ChronometerFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+
+    private var binding: FragmentChronometerBinding? = null
+
+    private var timeStarted: Boolean = false
+    private lateinit var serviceIntent: Intent
+    private var time = 0.0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+        timer()
     }
 
     override fun onCreateView(
@@ -35,26 +33,94 @@ class ChronometerFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_chronometer, container, false)
+        binding = FragmentChronometerBinding.inflate(inflater, container, false)
+        return binding?.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ChronometerFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ChronometerFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+    override fun onDestroy() {
+        super.onDestroy()
+        binding = null
+    }
+
+    override fun onResume() {
+        super.onResume()
+        timer()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        requireContext().unregisterReceiver(updateTime)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        timer()
+    }
+
+    private fun timer(){
+        initListeners()
+        serviceIntent = Intent(requireContext(), TimerService::class.java)
+        ContextCompat.registerReceiver(
+            requireActivity(),
+            updateTime,
+            IntentFilter(TimerService.TIMER_UPDATED),
+            ContextCompat.RECEIVER_NOT_EXPORTED
+        )
+    }
+
+    private fun initListeners() {
+        binding?.btnPlayPause?.setOnClickListener { timerStartStop() }
+        binding?.btnReset?.setOnClickListener { timerReset() }
+    }
+
+    private fun timerStartStop() {
+        if (timeStarted) {
+            startTimer()
+        } else
+            stopTimer()
+    }
+
+    private fun startTimer(){
+        serviceIntent.putExtra(TimerService.TIME_EXTRA,time)
+        requireActivity().startService(serviceIntent)
+        binding?.btnPlayPause?.text = getString(R.string.timer_stop)
+        binding?.btnPlayPause?.icon = ContextCompat.getDrawable(requireContext(),R.drawable.timer_pause)
+        timeStarted = true
+    }
+
+    private fun stopTimer() {
+        requireActivity().stopService(serviceIntent)
+        binding?.btnPlayPause?.text = getString(R.string.timer_start)
+        binding?.btnPlayPause?.icon = ContextCompat.getDrawable(requireContext(),R.drawable.timer_play)
+        timeStarted = false
+    }
+
+    private fun timerReset() {
+        stopTimer()
+        time = 0.0
+        binding?.tvTimer?.text = getTimeStringFromDouble(time)
+    }
+
+    private val updateTime: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(p0: Context?, p1: Intent?) {
+            if (p1 != null) {
+                time = p1.getDoubleExtra(TimerService.TIME_EXTRA, 0.0)
+                binding?.tvTimer?.text = getTimeStringFromDouble(time)
             }
+        }
+    }
+    private fun getTimeStringFromDouble(time: Double): String {
+        val resultInt = time.roundToInt()
+        val hours = resultInt % 86400 / 3600
+        val minutes = resultInt % 86400 % 3600 / 60
+        val seconds = resultInt % 86400 % 3600 % 60
+        return makeTimeString(hours,minutes,seconds)
+    }
+
+    private fun makeTimeString(hour: Int, min: Int, sec: Int): String {
+        return String.format("%02d:%02d:%02d",hour,min,sec)
     }
 }
+
+
+

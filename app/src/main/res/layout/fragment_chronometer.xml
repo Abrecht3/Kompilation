@@ -1,19 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragmentChrono"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/fragmentChrono"
-    tools:context=".clock.ChronometerFragment"
-    android:background="@color/background">
+    android:background="@color/background"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".clock.ChronometerFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/tvTimer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
         android:text="@string/clock"
-        android:gravity="center"
-        android:textSize="60sp"
-        android:textColor="@color/white"/>
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="60sp" />
 
-</FrameLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnPlayPause"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="17dp"
+            android:text="@string/timer_start"
+            android:textColor="@color/white"
+            app:icon="@drawable/timer_play"
+            app:iconTint="@color/white" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnReset"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="17dp"
+            android:text="@string/timer_reset"
+            android:textColor="@color/white"
+            app:icon="@drawable/reset"
+            app:iconTint="@color/white" />
+
+
+    </LinearLayout>
+
+</LinearLayout>

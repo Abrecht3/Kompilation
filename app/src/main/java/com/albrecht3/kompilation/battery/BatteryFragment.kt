@@ -34,8 +34,7 @@ class BatteryFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        val filter = IntentFilter(Intent.ACTION_BATTERY_CHANGED)
-        requireActivity().registerReceiver(batteryInfoReceiver,filter)
+        registerReceiver()
     }
 
     override fun onPause() {
@@ -54,7 +53,8 @@ class BatteryFragment : Fragment() {
     }
 
     private fun registerReceiver(){
-        requireActivity().registerReceiver(batteryInfoReceiver, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+        val filter = IntentFilter(Intent.ACTION_BATTERY_CHANGED)
+        requireActivity().registerReceiver(batteryInfoReceiver, filter)
     }
 
     private var batteryInfoReceiver: BroadcastReceiver = object : BroadcastReceiver() {

@@ -1,15 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragmentTimer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/fragmentTimer"
+    android:background="@color/background"
+    android:gravity="center"
+    android:orientation="vertical"
     tools:context=".clock.TimerFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
+        android:id="@+id/tvTemporizer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
 
-</FrameLayout>
+        <TextView
+            android:id="@+id/tvTmpHour"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
+            android:text="@string/tmp_default"
+            android:textColor="@color/white"
+            android:textSize="60sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
+            android:text="@string/separador"
+            android:textColor="@color/white"
+            android:textSize="60sp" />
+
+        <TextView
+            android:id="@+id/tvTmpMin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
+            android:text="@string/tmp_default"
+            android:textColor="@color/white"
+            android:textSize="60sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
+            android:text="@string/separador"
+            android:textColor="@color/white"
+            android:textSize="60sp" />
+
+        <TextView
+            android:id="@+id/tvTmpSec"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
+            android:text="@string/tmp_default"
+            android:textColor="@color/white"
+            android:textSize="60sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/setTimes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp"
+        android:gravity="center">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSetTime1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/set_time_1"
+            android:textSize="18sp"
+            android:layout_marginHorizontal="15dp"
+            android:textColor="@color/white"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSetTime2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/set_time_2"
+            android:textSize="18sp"
+            android:layout_marginHorizontal="15dp"
+            android:textColor="@color/white"/>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSetTime3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/set_time_3"
+            android:textSize="18sp"
+            android:layout_marginHorizontal="15dp"
+            android:textColor="@color/white"/>
+
+    </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/timer_play"
+        android:layout_marginTop="20dp"/>
+
+</LinearLayout>
