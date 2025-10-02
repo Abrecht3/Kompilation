@@ -6,7 +6,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.Toast
+import androidx.core.view.children
 import com.albrecht3.kompilation.R
 import com.albrecht3.kompilation.databinding.FragmentTimerBinding
 import java.util.Locale
@@ -16,10 +18,13 @@ class TimerFragment : Fragment() {
     private var binding: FragmentTimerBinding? = null
 
     private var timer: CountDownTimer? = null
+    private var lapso = ""
+    private var isClicked = false
+    var valueTimer: Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        hourGlass()
+        initTimer()
     }
 
     override fun onCreateView(
@@ -33,7 +38,7 @@ class TimerFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        hourGlass()
+        initTimer()
     }
 
     override fun onPause() {
@@ -42,7 +47,7 @@ class TimerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        hourGlass()
+        initTimer()
     }
 
     override fun onDestroy() {
@@ -50,26 +55,39 @@ class TimerFragment : Fragment() {
         binding = null
     }
 
-    private fun hourGlass() {
-        var setTimer: Long = 0
+    private fun initTimer(){
+        setTimeDefault()
+        binding?.fabStart?.setOnClickListener {
+            isClicked = !isClicked
+            Toast.makeText(requireContext(), valueTimer.toString(), Toast.LENGTH_LONG).show()
+            if (isClicked){
+                startTimer(valueTimer)
+                disableButtons()
+            }
+        }
+        isClicked =false
+    }
+    private fun setTimeDefault(){
+        val minute: Long = 60000
         binding?.btnSetTime1?.setOnClickListener {
-            setTimer = 300000
+            valueTimer = 0
+            valueTimer = 5*minute
             binding?.tvTmpMin?.text = "05"
-            binding?.fabStart?.setOnClickListener { startTimer(setTimer) }
+            Toast.makeText(requireContext(), valueTimer.toString(), Toast.LENGTH_LONG).show()
         }
         binding?.btnSetTime2?.setOnClickListener {
-            setTimer = 600000
+            valueTimer = 0
+            valueTimer = 10*minute
             binding?.tvTmpMin?.text = "10"
-            binding?.fabStart?.setOnClickListener { startTimer(setTimer) }
+            Toast.makeText(requireContext(), valueTimer.toString(), Toast.LENGTH_LONG).show()
         }
         binding?.btnSetTime3?.setOnClickListener {
-            setTimer = 900000
+            valueTimer = 0
+            valueTimer = 15*minute
             binding?.tvTmpMin?.text = "15"
-            binding?.fabStart?.setOnClickListener { startTimer(setTimer) }
+            Toast.makeText(requireContext(), valueTimer.toString(), Toast.LENGTH_LONG).show()
         }
-
     }
-
 
     private fun startTimer(p10: Long) {
         timer = object : CountDownTimer(p10,1000){
@@ -89,9 +107,17 @@ class TimerFragment : Fragment() {
                 Toast.makeText(requireContext(), getString(R.string.time_out), Toast.LENGTH_SHORT).show()
             }
 
-            private fun makeTimeString(time: Long): String {
-                return String.format(Locale.getDefault(),"%02d",time)
-            }
         }.start()
     }
+
+    private fun makeTimeString(time: Long): String {
+        return String.format(Locale.getDefault(),"%02d",time)
+    }
+
+    private fun disableButtons() {
+        binding?.btnSetTime1?.isEnabled = false
+        binding?.btnSetTime2?.isEnabled = false
+        binding?.btnSetTime3?.isEnabled = false
+    }
 }
+
