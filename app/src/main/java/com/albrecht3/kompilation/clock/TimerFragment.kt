@@ -19,6 +19,7 @@ class TimerFragment : Fragment() {
 
     private var timer: CountDownTimer? = null
     private var lapso = ""
+    private lateinit var lapsoChunked: List<String>
     private var isClicked = false
     var valueTimer: Long = 0
 
@@ -55,46 +56,65 @@ class TimerFragment : Fragment() {
         binding = null
     }
 
-    private fun initTimer(){
+    private fun initTimer() {
         setTimeDefault()
+        initKeyboard()
         binding?.fabStart?.setOnClickListener {
             isClicked = !isClicked
             Toast.makeText(requireContext(), valueTimer.toString(), Toast.LENGTH_LONG).show()
-            if (isClicked){
+            if (isClicked) {
                 startTimer(valueTimer)
                 disableButtons()
             }
         }
-        isClicked =false
+        isClicked = false
     }
-    private fun setTimeDefault(){
+
+    private fun setTimeDefault() {
         val minute: Long = 60000
         binding?.btnSetTime1?.setOnClickListener {
             valueTimer = 0
-            valueTimer = 5*minute
+            valueTimer = 5 * minute
             binding?.tvTmpMin?.text = "05"
             Toast.makeText(requireContext(), valueTimer.toString(), Toast.LENGTH_LONG).show()
         }
         binding?.btnSetTime2?.setOnClickListener {
             valueTimer = 0
-            valueTimer = 10*minute
+            valueTimer = 10 * minute
             binding?.tvTmpMin?.text = "10"
             Toast.makeText(requireContext(), valueTimer.toString(), Toast.LENGTH_LONG).show()
         }
         binding?.btnSetTime3?.setOnClickListener {
             valueTimer = 0
-            valueTimer = 15*minute
+            valueTimer = 15 * minute
             binding?.tvTmpMin?.text = "15"
             Toast.makeText(requireContext(), valueTimer.toString(), Toast.LENGTH_LONG).show()
         }
     }
 
+    private fun initKeyboard() {
+        val second: Long = 1000
+        binding?.gridKeyboard?.children?.filterIsInstance<Button>()?.forEach { button ->
+            button.setOnClickListener {
+                val btnText = button.text.toString()
+                when {
+                    btnText.matches("[0-9]".toRegex()) -> {
+                        lapso += btnText
+                        valueTimer = lapso.toLong() * second
+                        Toast.makeText(requireContext(), lapso, Toast.LENGTH_SHORT).show()
+                    }
+                }
+                lapsoChunked = lapso.chunked(2) { it.toString() }
+            }
+        }
+    }
+
     private fun startTimer(p10: Long) {
-        timer = object : CountDownTimer(p10,1000){
+        timer = object : CountDownTimer(p10, 1000) {
             override fun onTick(p0: Long) {
-                val hours = (p0/1000) / 3600
-                val minutes = ((p0/1000) % 3600) / 60
-                val seconds = (p0/1000) % 60
+                val hours = (p0 / 1000) / 3600
+                val minutes = ((p0 / 1000) % 3600) / 60
+                val seconds = (p0 / 1000) % 60
                 binding?.tvTmpHour?.text = makeTimeString(hours)
                 binding?.tvTmpMin?.text = makeTimeString(minutes)
                 binding?.tvTmpSec?.text = makeTimeString(seconds)
@@ -104,20 +124,22 @@ class TimerFragment : Fragment() {
                 binding?.tvTmpHour?.text = getString(R.string.tmp_default)
                 binding?.tvTmpMin?.text = getString(R.string.tmp_default)
                 binding?.tvTmpSec?.text = getString(R.string.tmp_default)
-                Toast.makeText(requireContext(), getString(R.string.time_out), Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.time_out), Toast.LENGTH_SHORT)
+                    .show()
             }
 
         }.start()
     }
 
     private fun makeTimeString(time: Long): String {
-        return String.format(Locale.getDefault(),"%02d",time)
+        return String.format(Locale.getDefault(), "%02d", time)
     }
 
     private fun disableButtons() {
         binding?.btnSetTime1?.isEnabled = false
         binding?.btnSetTime2?.isEnabled = false
         binding?.btnSetTime3?.isEnabled = false
+        binding?.gridKeyboard?.isEnabled = false
     }
 }
 
