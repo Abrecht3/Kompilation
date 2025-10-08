@@ -61,50 +61,74 @@ class TimerFragment : Fragment() {
         initKeyboard()
         binding?.fabStart?.setOnClickListener {
             isClicked = !isClicked
-            Toast.makeText(requireContext(), valueTimer.toString(), Toast.LENGTH_LONG).show()
+            Toast.makeText(requireContext(), lapso, Toast.LENGTH_LONG).show()
             if (isClicked) {
                 startTimer(valueTimer)
                 disableButtons()
             }
         }
-        isClicked = false
     }
 
     private fun setTimeDefault() {
         val minute: Long = 60000
         binding?.btnSetTime1?.setOnClickListener {
-            valueTimer = 0
-            valueTimer = 5 * minute
-            binding?.tvTmpMin?.text = "05"
-            Toast.makeText(requireContext(), valueTimer.toString(), Toast.LENGTH_LONG).show()
+            lapso = "05"
+            valueTimer = lapso.toLong() * minute
+            binding?.tvTmpMin?.text = lapso
+            Toast.makeText(requireContext(), lapso, Toast.LENGTH_LONG).show()
         }
         binding?.btnSetTime2?.setOnClickListener {
-            valueTimer = 0
-            valueTimer = 10 * minute
-            binding?.tvTmpMin?.text = "10"
-            Toast.makeText(requireContext(), valueTimer.toString(), Toast.LENGTH_LONG).show()
+            lapso = "10"
+            valueTimer = lapso.toLong() * minute
+            binding?.tvTmpMin?.text = lapso
+            Toast.makeText(requireContext(), lapso, Toast.LENGTH_LONG).show()
         }
         binding?.btnSetTime3?.setOnClickListener {
-            valueTimer = 0
-            valueTimer = 15 * minute
-            binding?.tvTmpMin?.text = "15"
-            Toast.makeText(requireContext(), valueTimer.toString(), Toast.LENGTH_LONG).show()
+            lapso = "15"
+            valueTimer = lapso.toLong() * minute
+            binding?.tvTmpMin?.text = lapso
+            Toast.makeText(requireContext(), lapso, Toast.LENGTH_LONG).show()
         }
     }
 
     private fun initKeyboard() {
         val second: Long = 1000
+        var sec = ""
+        var min = ""
+        var hrs = ""
         binding?.gridKeyboard?.children?.filterIsInstance<Button>()?.forEach { button ->
             button.setOnClickListener {
                 val btnText = button.text.toString()
                 when {
                     btnText.matches("[0-9]".toRegex()) -> {
                         lapso += btnText
-                        valueTimer = lapso.toLong() * second
+                        if (lapso.toLong() <60){
+                            binding?.tvTmpSec?.text = makeTimeString(lapso.toLong())
+                            valueTimer = lapso.toLong() * second
+                        }else{
+                            lapsoChunked = lapso.reversed().chunked(2) { it.toString() }
+                            if (lapsoChunked.size <3){
+                                sec = lapsoChunked[0].reversed()
+                                min = lapsoChunked[1].reversed()
+                                binding?.tvTmpSec?.text = makeTimeString(sec.toLong())
+                                binding?.tvTmpMin?.text = makeTimeString(min.toLong())
+                                valueTimer = (sec.toLong() * second) + ((min.toLong()*second)*60)
+                            }else{
+                                sec = lapsoChunked[0].reversed()
+                                min = lapsoChunked[1].reversed()
+                                hrs = lapsoChunked[2].reversed()
+                                binding?.tvTmpSec?.text = makeTimeString(sec.toLong())
+                                binding?.tvTmpMin?.text = makeTimeString(min.toLong())
+                                binding?.tvTmpHour?.text = makeTimeString(hrs.toLong())
+                                valueTimer = (sec.toLong() * second) + (min.toLong()*second*60) + (hrs.toLong()*second*3600)
+                            }
+                        }
                         Toast.makeText(requireContext(), lapso, Toast.LENGTH_SHORT).show()
                     }
+                    btnText == "C"->{
+                        reset()
+                    }
                 }
-                lapsoChunked = lapso.chunked(2) { it.toString() }
             }
         }
     }
@@ -124,10 +148,10 @@ class TimerFragment : Fragment() {
                 binding?.tvTmpHour?.text = getString(R.string.tmp_default)
                 binding?.tvTmpMin?.text = getString(R.string.tmp_default)
                 binding?.tvTmpSec?.text = getString(R.string.tmp_default)
-                Toast.makeText(requireContext(), getString(R.string.time_out), Toast.LENGTH_SHORT)
-                    .show()
+                Toast.makeText(requireContext(), getString(R.string.time_out), Toast.LENGTH_SHORT).show()
+                enableButtons()
+                reset()
             }
-
         }.start()
     }
 
@@ -135,11 +159,31 @@ class TimerFragment : Fragment() {
         return String.format(Locale.getDefault(), "%02d", time)
     }
 
+    private fun reset() {
+        binding?.tvTmpHour?.text ="00"
+        binding?.tvTmpMin?.text ="00"
+        binding?.tvTmpSec?.text ="00"
+        valueTimer = 0
+        lapso = ""
+        isClicked = false
+    }
+
+    private fun enableButtons() {
+        binding?.btnSetTime1?.isEnabled = true
+        binding?.btnSetTime2?.isEnabled = true
+        binding?.btnSetTime3?.isEnabled = true
+        binding?.gridKeyboard?.children?.filterIsInstance<Button>()?.forEach {
+            it.isEnabled = true
+        }
+    }
+
     private fun disableButtons() {
         binding?.btnSetTime1?.isEnabled = false
         binding?.btnSetTime2?.isEnabled = false
         binding?.btnSetTime3?.isEnabled = false
-        binding?.gridKeyboard?.isEnabled = false
+        binding?.gridKeyboard?.children?.filterIsInstance<Button>()?.forEach {
+            it.isEnabled = false
+        }
     }
 }
 
